@@ -1,1 +1,1 @@
-# cloud-cost-ptimizer
+# cloud-cost-optimizer
