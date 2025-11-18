@@ -1,0 +1,60 @@
+# AWS Billing Data Collector Configuration
+
+# AWS Configuration
+aws:
+  region: "us-east-1"  # Billing metrics are only available in us-east-1
+  services:
+    - "Amazon Elastic Compute Cloud - Compute"
+    - "Amazon Simple Storage Service"
+    - "Amazon Relational Database Service"
+    - "Amazon CloudFront"
+    - "Amazon Elastic Load Balancing"
+    - "Amazon Route 53"
+    - "AWS Lambda"
+    - "Amazon API Gateway"
+    - "Amazon ElastiCache"
+    - "Amazon Elasticsearch Service"
+
+# Prometheus Configuration
+prometheus:
+  pushgateway:
+    job_name: "aws-billing-collector"
+    instance_name: "github-actions"
+    timeout_seconds: 30
+    retry_attempts: 3
+    retry_delay_seconds: 5
+
+# Collection Configuration
+collection:
+  # How many days back to collect cost data
+  days_back: 2
+  
+  # Metrics to collect
+  collect_cost_explorer: true
+  collect_cloudwatch_billing: true
+  collect_budgets: true
+  
+  # Data retention
+  keep_raw_data_days: 7
+  keep_logs_days: 30
+
+# Notification Configuration
+notifications:
+  slack:
+    enabled: false
+    webhook_url: ""
+    channel: "#alerts"
+  
+  email:
+    enabled: false
+    smtp_server: ""
+    smtp_port: 587
+    from_address: ""
+    to_addresses: []
+
+# Logging Configuration
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(levelname)s - %(message)s"
+  max_file_size_mb: 10
+  backup_count: 5
